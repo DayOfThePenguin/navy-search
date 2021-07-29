@@ -1,0 +1,21 @@
+env
+dist
+.ipynb*
+.DS_Store
+__pycache__
+*.bz2
+dask-worker-space
+duplicates_*
+*.prof
+logs*
+
+*.npy
+*.sql
+*.egg-info
+*.so
+
+
+# Added by cargo
+
+/target
+Cargo.lock
