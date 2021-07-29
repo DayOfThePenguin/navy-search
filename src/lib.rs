@@ -9,7 +9,7 @@ fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
 /// A Python module implemented in Rust
 /// This must have the same name as the RustExtension() in setup.py
 #[pymodule]
-fn rust2py(py: Python, m: &PyModule) -> PyResult<()> {
+fn rust2py(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
 
     Ok(())

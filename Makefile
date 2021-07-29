@@ -1,4 +1,6 @@
-.PHONY: db
+SHELL := /bin/bash
+
+# .PHONY: db
 
 # Check python formatting
 check-style:
@@ -20,5 +22,11 @@ style:
 
 # Run test suite
 test:
-	python -m pytest -s -v tests
-# cargo test --no-default-features
+	source activate-env; \
+	python -m pytest -s -v tests; \
+	cargo test --no-default-features
+
+install:
+	source activate-env; \
+	./build-wheel.sh; \
+	python -m pip install --force-reinstall dist/navsearch-*; \

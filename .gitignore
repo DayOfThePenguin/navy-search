@@ -13,7 +13,7 @@ logs*
 *.sql
 *.egg-info
 *.so
-
+*.log
 
 # Added by cargo
 
