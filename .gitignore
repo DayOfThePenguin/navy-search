@@ -15,7 +15,12 @@ logs*
 *.so
 *.log
 
-# Added by cargo
+# Don't commit data
+data/
 
+# Added by cargo
 /target
 Cargo.lock
+
+# MeiliSearch
+MeiliSearch

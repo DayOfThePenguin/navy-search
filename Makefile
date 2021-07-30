@@ -26,7 +26,10 @@ test:
 	python -m pytest -s -v tests; \
 	cargo test --no-default-features
 
-install:
+install-dev:
 	source activate-env; \
 	./build-wheel.sh; \
 	python -m pip install --force-reinstall dist/navsearch-*; \
+
+tika-container:
+	docker-compose build --build-arg USER_ID=1000 --build-arg GROUP_ID=1000

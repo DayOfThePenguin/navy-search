@@ -1,7 +1,10 @@
 import sys
 import requests
 
-link = "http://indy/abcde1245"
+
+def download(link: , download_path: Path):
+
+
 file_name = "download.data"
 with open(file_name, "wb") as f:
     print("Downloading %s" % file_name)

@@ -30,7 +30,7 @@ setup(
     package_dir={"": "py_src"},
     packages=[
         "navsearch",
-        # "navsearch.database",
+        "navsearch.scraper",
     ],
     # rust extensions are not zip safe, just like C-extensions.
     zip_safe=False,

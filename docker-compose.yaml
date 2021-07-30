@@ -1,0 +1,55 @@
+version: '3'
+
+# name for volume to store the data throughout the file.
+volumes:
+    postgres-data:
+
+services:
+  mongo:
+    container_name: scraping_mongo
+    image: mongo
+
+  ## Apache Tika Server
+  tika:
+    container_name: navy-tika-server
+    build: .
+    image: tika-local
+    restart: on-failure
+    ports:
+      - "9998:9998"
+      # volumes:
+      #   - type: bind
+      #     source: ./data
+      #     target: /home/user
+      # volumes:
+      # - ./data/:/data/
+
+  database:
+    container_name: navydata
+    image: postgres
+    # networks:
+        # - integration
+    ports:
+        - 5432:5432
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - EFEFCTIVE_CACHE_SIZE=8GB
+        - SHARED_BUFFERS=4GB
+        - WORK_MEM=100MB
+        - MAX_WAL_SIZE=1GB
+    volumes:
+        - postgres-data:/var/lib/postgresql/data
+
+
+# networks:
+#     integration:
+#         external:
+#             name: integration-net
+
+# Postgres Config:
+# select name, setting from pg_settings where name = 'shared_buffers';
+# ALTER SYSTEM SET effective_cache_size='16GB';
+# ALTER SYSTEM SET shared_buffers='8GB';
+# ALTER SYSTEM SET work_mem='100MB';
+# ALTER SYSTEM SET max_wal_size='1GB';
