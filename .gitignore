@@ -17,6 +17,8 @@ logs*
 
 # Don't commit data
 data/
+.coverage
+htmlcov/
 
 # Added by cargo
 /target

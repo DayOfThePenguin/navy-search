@@ -1,30 +1,40 @@
 """Tests for navsearch.scraper.pdf"""
 import pytest
+
 from navsearch.scraper import pdf
+from pydantic import ValidationError
+from pymongo.errors import DuplicateKeyError
 
 
 class TestPdfScraper:
     """Tests for navsearch.scraper.pdf"""
 
-    def test_is_valid_url(self):
-        """Tests for pdf.is_valid_url"""
-        valid_cases = ["http://example.com",
-                       "https://example.com",
-                       "https://example.com/test",
-                       "https://example.com/test.html",
-                       "https://example.com/test.pdf",
-                       "https://example.org/test.html",
-                       "https://example.net/test.html",
-                       " http://example.com",
-                       ]
-        invalid_cases = ["htxtp://example.com",
-                         "javascript://example.com",
-                         "ftp://example.com",
-                         "ftps://example.com",
-                         "http: //example.com",
-                         "http:/example.com",
-                         "http://example"]
+    def test_url(self):
+        """Tests for pdf.URL class"""
+        valid_cases = [
+            "https://example.mil",
+            "https://example.navy.mil",
+            "https://example.army.mil",
+            "https://example.mil/test",
+            "https://example.mil/test.html",
+            "https://example.mil/test.pdf",
+            "https://example.mil/test.html",
+            "https://example.mil/test.html",
+        ]
+        invalid_cases = ["http://example.mil",
+                         " http://example.mil",
+                         "htxtp://example.mil",
+                         "javascript://example.mil",
+                         "ftp://example.mil",
+                         "ftps://example.mil",
+                         "http: //example.mil",
+                         "http:/example.mil",
+                         "http://example",
+                         "http://.mil",
+                         "http://*.mil",
+                         ]
         for case in valid_cases:
-            assert pdf.is_valid_url(case) is True
+            assert pdf.Url(url=case)
         for case in invalid_cases:
-            assert pdf.is_valid_url(case) is False
+            with pytest.raises(ValidationError):
+                pdf.Url(url=case)

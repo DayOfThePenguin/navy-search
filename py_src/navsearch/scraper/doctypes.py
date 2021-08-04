@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 from typing import List, Optional
 from enum import Enum
 
@@ -16,11 +17,11 @@ class OPNAVNotice(BaseModel):
     subject: str
     echelon: OPNAVEchelon
     name = 'John Doe'
-    pdf_url:
+    pdf_url: Path
     signup_ts: Optional[datetime] = None
     friends: List[int] = []
 
     @validator('pdf_url')
     def check_url_scheme(cls, v):
-        assert v.scheme is "https", "URL must be https"
+        assert v.scheme == "https", "URL must be https"
         return v

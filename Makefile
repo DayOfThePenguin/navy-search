@@ -23,10 +23,16 @@ style:
 # Run test suite
 test:
 	source activate-env; \
-	python -m pytest -s -v tests; \
+	coverage run -m pytest -s -v tests; \
 	cargo test --no-default-features
+	coverage report -m
 
-install-dev:
+coverage:
+	source activate-env; \
+	coverage html; \
+	firefox htmlcov/index.html; \
+
+install:
 	source activate-env; \
 	./build-wheel.sh; \
 	python -m pip install --force-reinstall dist/navsearch-*; \

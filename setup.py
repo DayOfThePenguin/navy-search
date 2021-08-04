@@ -31,6 +31,7 @@ setup(
     packages=[
         "navsearch",
         "navsearch.scraper",
+        "navsearch.parser",
     ],
     # rust extensions are not zip safe, just like C-extensions.
     zip_safe=False,

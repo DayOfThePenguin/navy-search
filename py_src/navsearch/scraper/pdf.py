@@ -1,3 +1,4 @@
+from pydantic import BaseModel, HttpUrl, validator
 import re
 import sys
 
@@ -12,19 +13,30 @@ from bs4 import BeautifulSoup
 PDF_URL_ROOT = "https://www.secnav.navy.mil"
 
 
-def is_valid_url(url: str) -> bool:
-    url_regex = ("((http|https)://)(www.)?" +
-                 "[a-zA-Z0-9@:%._\\+~#?&//=]" +
-                 "{2,256}\\.[a-z]" +
-                 "{2,6}\\b([-a-zA-Z0-9@:%" +
-                 "._\\+~#?&//=]*)")
-    if (url is None):  # return False if url is empty
-        return False
+class Url(BaseModel):
+    # pylint: disable=no-self-argument,no-self-use,invalid-name
+    url: HttpUrl
 
-    if(re.search(url_regex, url)):
-        return True
-    else:
-        return False
+    @validator("url")
+    def check_url_props(cls, v):
+        assert v.scheme == "https", "scheme must be https"
+        assert v.tld == "mil", "top-level domain must be .mil"
+        return v
+
+
+# def is_valid_url(url: str) -> bool:
+#     url_regex = ("((http|https)://)(www.)?" +
+#                  "[a-zA-Z0-9@:%._\\+~#?&//=]" +
+#                  "{2,256}\\.[a-z]" +
+#                  "{2,6}\\b([-a-zA-Z0-9@:%" +
+#                  "._\\+~#?&//=]*)")
+#     if (url is None):  # return False if url is empty
+#         return False
+
+#     if(re.search(url_regex, url)):
+#         return True
+#     else:
+#         return False
 
 
 def pdf_url_stubs_from_html(html_path: Path) -> List[List[str]]:
